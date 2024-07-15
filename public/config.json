@@ -16,8 +16,10 @@
         "execute": {
             "inArguments": [
                 {
-                  "email": "{{Contact.Default.EmailAddress}}",
-                  "to": "{{Contact.Attribute.TwilioV1.TwilioNumber}}" 
+                   "email": "{{Contact.Attribute.Customers.EmailAddress}}",
+                  "to": "{{Contact.Attribute.Customers.Phone}}" ,
+                  "contactKey":"{{Contact.Attribute.Customers.ContactKey}}",
+                  "fname":"{{Contact.Attribute.Customers.FirstName}}" 
                 }               
             ],
             "outArguments": [],
