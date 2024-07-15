@@ -101,21 +101,118 @@ exports.execute = function (req, res) {
     const authToken = requestBody.authToken;
     const to = requestBody.to;
     const from = requestBody.messagingService;
-    const body = requestBody.body;;
+    const body = requestBody.body;
+    const contactKey = requestBody.contactKey;
 
-    const client = require('twilio')(accountSid, authToken); 
-     
-    client.messages 
-          .create({ 
-             body: body,
-             messagingService: messagingService,
-             to: to
-           }) 
-          .then(message => console.log(message.sid)) 
-          .done();
+    const https = require('https');
 
-
-
+    const getToken = () => {
+      return new Promise((resolve, reject) => {
+        const tokenData = JSON.stringify({
+          "grant_type": "client_credentials",
+          "client_id":"bj7x3dtz35bgk1nm0vb1o19n",
+          "client_secret":"oEm690UazJe4Nq7m4EVEvQvE"
+        });
+    
+        const tokenOptions = {
+          hostname: 'mc2-qgk1nhxg1mljb37pr3-6x9q4.auth.marketingcloudapis.com',
+          port: 443,
+          path: '/v2/token',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': tokenData.length
+          }
+        };
+    
+        const tokenReq = https.request(tokenOptions, (tokenRes) => {
+          let tokenResponseBody = '';
+    
+          tokenRes.on('data', (chunk) => {
+            tokenResponseBody += chunk;
+          });
+    
+          tokenRes.on('end', () => {
+            if (tokenRes.statusCode === 200) {
+              const tokenResponseJson = JSON.parse(tokenResponseBody);
+              resolve(tokenResponseJson.access_token);
+            } else {
+              reject(`Failed to obtain token. Status code: ${tokenRes.statusCode}`);
+            }
+          });
+        });
+    
+        tokenReq.on('error', (e) => {
+          reject(`Problem with token request: ${e.message}`);
+        });
+    
+        tokenReq.write(tokenData);
+        tokenReq.end();
+      });
+    };
+    
+    const insertRecord = (accessToken) => {
+      return new Promise((resolve, reject) => {
+        const recordData = JSON.stringify([
+          {
+            "keys": {
+              "ContactId": contactKey
+            },
+            "values": {
+              "Message": body,
+              "Date": "12-12-2023"
+            }
+          }
+        ]);
+    
+        const recordOptions = {
+          hostname: 'mc2-qgk1nhxg1mljb37pr3-6x9q4.rest.marketingcloudapis.com',
+          port: 443,
+          path: '/hub/v1/dataevents/key:EAB3AF1A-A7A9-4CAD-88D7-87BFF29AD607/rowset',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Length': recordData.length
+          }
+        };
+    
+        const recordReq = https.request(recordOptions, (recordRes) => {
+          let recordResponseBody = '';
+    
+          recordRes.on('data', (chunk) => {
+            recordResponseBody += chunk;
+          });
+    
+          recordRes.on('end', () => {
+            if (recordRes.statusCode === 200 || recordRes.statusCode === 201) {
+              resolve(`Record inserted successfully. Response: ${recordResponseBody}`);
+            } else {
+              reject(`Failed to insert record. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
+            }
+          });
+        });
+    
+        recordReq.on('error', (e) => {
+          reject(`Problem with record request: ${e.message}`);
+        });
+    
+        recordReq.write(recordData);
+        recordReq.end();
+      });
+    };
+    
+    getToken()
+      .then((accessToken) => {
+        console.log('Access Token:', accessToken);
+        return insertRecord(accessToken);
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     // FOR TESTING
     logData(req);
     res.send(200, 'Publish');
