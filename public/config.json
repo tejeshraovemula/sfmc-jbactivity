@@ -23,7 +23,7 @@
                 }               
             ],
             "outArguments": [],
-            "url": "https://sfmc-customactivity-6c464b5fd4b2.herokuapp.com/journeybuilder/execute",
+            "url": "https://sfmc-customactivity-poc-9e1ad4a92518.herokuapp.com/journeybuilder/execute",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -34,7 +34,7 @@
     "configurationArguments": {
       "applicationExtensionKey": "e962d1d4-8b07-4e76-89be-ecd1f1423b6d",
        "save": {
-           "url": "https://sfmc-customactivity-6c464b5fd4b2.herokuapp.com/journeybuilder/save",
+           "url": "https://sfmc-customactivity-poc-9e1ad4a92518.herokuapp.com/journeybuilder/save",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -42,7 +42,7 @@
             "timeout": 2000
        },
        "publish": {
-           "url": "https://sfmc-customactivity-6c464b5fd4b2.herokuapp.com/journeybuilder/publish",
+           "url": "https://sfmc-customactivity-poc-9e1ad4a92518.herokuapp.com/journeybuilder/publish",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -50,7 +50,7 @@
             "timeout": 2000
        },
        "validate": {
-           "url": "https://sfmc-customactivity-6c464b5fd4b2.herokuapp.com/journeybuilder/validate",
+           "url": "https://sfmc-customactivity-poc-9e1ad4a92518.herokuapp.com/journeybuilder/validate",
             "verb": "POST",
             "body": "",
             "format": "json",
@@ -58,7 +58,7 @@
             "timeout": 2000
        },
        "stop": {
-           "url": "https://sfmc-customactivity-6c464b5fd4b2.herokuapp.com/journeybuilder/stop",
+           "url": "https://sfmc-customactivity-poc-9e1ad4a92518.herokuapp.com/journeybuilder/stop",
             "verb": "POST",
             "body": "",
             "format": "json",
