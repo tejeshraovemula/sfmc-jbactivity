@@ -19,14 +19,17 @@
 
             require(config, dependencies); 
         })();
-        $('#insertFieldButton').click(function() {
-        var selectedField = $('#personalizationField').val();
-        var messageBody = $('#messageBody');
-        var cursorPosition = messageBody.prop("selectionStart");
-        var textBeforeCursor = messageBody.val().substring(0, cursorPosition);
-        var textAfterCursor = messageBody.val().substring(cursorPosition);
-
-        messageBody.val(textBeforeCursor + selectedField + textAfterCursor);
+        $(document).ready(function() {
+            $('#insertFieldButton').click(function() {
+                var selectedField = $('#personalizationField').val();
+                var messageBody = $('#messageBody');
+                var cursorPosition = messageBody.prop("selectionStart");
+                var textBeforeCursor = messageBody.val().substring(0, cursorPosition);
+                var textAfterCursor = messageBody.val().substring(cursorPosition);
+    
+                messageBody.val(textBeforeCursor + selectedField + textAfterCursor);
+            });
+        });
     });
     </script>
 
