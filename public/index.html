@@ -25,6 +25,10 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            function updatePreview() {
+                var messageBody = $('#messageBody').val();
+                $('#messagePreview').text(messageBody);
+            }
             $('#insertFieldButton').click(function() {
                 var selectedField = $('#personalizationField').val();
                 var messageBody = $('#messageBody');
