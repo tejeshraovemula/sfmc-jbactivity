@@ -56,10 +56,18 @@
         #step1 {
             display: block;
         }
+        #container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        #formSection {
+            flex: 1;
+            margin-right: 20px;
+        }
         #messagePreview {
             border: 1px solid #ced4da;
             padding: 10px;
-            margin-top: 10px;
             background-color: #f8f9fa;
             border-radius: 10px;
             position: relative;
@@ -80,26 +88,28 @@
 </head>
 <body>
 <div id="step1" class="step">
-    <h2>Create a Twilio SMS message:</h2>
-    <p>Twilio's Programmable SMS has the features you’ll need to build quickly and scale to production. We’ve solved the hard problems so you don’t have to.  <a href="https://www.twilio.com/sms" target="_blank">Learn more about about Twilio SMS here</a>.</p>
-    <hr>
-    <div class="form-group">
-        <div><label for="messageBody">Create message body:</label></div>
-        <textarea class="form-control" id="messageBody" rows="4"></textarea>
+    <div id="container">
+        <div id="formSection">
+            <h2>Create a Twilio SMS message:</h2>
+            <p>Twilio's Programmable SMS has the features you’ll need to build quickly and scale to production. We’ve solved the hard problems so you don’t have to.  <a href="https://www.twilio.com/sms" target="_blank">Learn more about about Twilio SMS here</a>.</p>
+            <hr>
+            <div class="form-group">
+                <div><label for="messageBody">Create message body:</label></div>
+                <textarea class="form-control" id="messageBody" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="personalizationField">Insert Personalization Field:</label>
+                <select class="form-control" id="personalizationField">
+                    <option value="{{Contact.Attribute.Customers.FirstName}}">First Name</option>
+                    <option value="{{Contact.Attribute.Customers.LastName}}">Last Name</option>
+                    <option value="{{Contact.Attribute.Customers.EmailAddress}}">Email Address</option>
+                </select>
+            </div>
+            <button class="btn btn-secondary" id="insertFieldButton">Insert Field</button>  
+        </div>
+        <h3>Message Preview:</h3>
+        <div id="messagePreview"></div>
     </div>
-    <div class="form-group">
-        <label for="personalizationField">Insert Personalization Field:</label>
-        <select class="form-control" id="personalizationField">
-            <option value="{{Contact.Attribute.Customers.FirstName}}">First Name</option>
-            <option value="{{Contact.Attribute.Customers.LastName}}">Last Name</option>
-            <option value="{{Contact.Attribute.Customers.EmailAddress}}">Email Address</option>
-        </select>
-    </div>
-    <button class="btn btn-secondary" id="insertFieldButton">Insert Field</button>  
-    <h3>Message Preview:</h3>
-    <div id="messagePreview"></div>
-     
-
 </div>
 </body>
 </html>
