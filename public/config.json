@@ -80,20 +80,7 @@
         "arguments": {
             "execute": {
                 "inArguments": [
-                    {
-                        "accountSid": {
-                            "dataType": "String",
-                            "isNullable": false,
-                            "direction": "out"   
-                        }
-                    },                    
-                    {
-                        "authToken": {
-                            "dataType": "String",
-                            "isNullable": false,
-                            "direction": "out"   
-                        }
-                    },                    
+                               
                     {
                         "from": {
                             "dataType": "Phone",
