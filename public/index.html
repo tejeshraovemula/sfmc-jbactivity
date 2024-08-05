@@ -19,6 +19,11 @@
 
             require(config, dependencies); 
         })();
+        
+        
+    </script>
+
+    <script type="text/javascript">
         $(document).ready(function() {
             $('#insertFieldButton').click(function() {
                 var selectedField = $('#personalizationField').val();
@@ -26,11 +31,10 @@
                 var cursorPosition = messageBody.prop("selectionStart");
                 var textBeforeCursor = messageBody.val().substring(0, cursorPosition);
                 var textAfterCursor = messageBody.val().substring(cursorPosition);
-    
+
                 messageBody.val(textBeforeCursor + selectedField + textAfterCursor);
             });
         });
-    });
     </script>
 
     <!--Styles-->
