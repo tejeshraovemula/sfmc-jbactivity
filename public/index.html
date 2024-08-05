@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -19,16 +18,14 @@
 
             require(config, dependencies); 
         })();
-        
-        
     </script>
-
     <script type="text/javascript">
         $(document).ready(function() {
             function updatePreview() {
                 var messageBody = $('#messageBody').val();
                 $('#messagePreview').text(messageBody);
             }
+
             $('#insertFieldButton').click(function() {
                 var selectedField = $('#personalizationField').val();
                 var messageBody = $('#messageBody');
@@ -39,6 +36,7 @@
                 messageBody.val(textBeforeCursor + selectedField + textAfterCursor);
                 updatePreview();
             });
+
             $('#messageBody').on('input', function() {
                 updatePreview();
             });
@@ -50,19 +48,20 @@
     <!-- Styles -->
     <style type="text/css">
         html, body {
-            padding: 20px;
+            height: 100%;
             margin: 0;
             overflow: hidden; /* Prevent scrolling */
         }
         #step1 {
             display: block;
         }
-         #container {
+        #container {
             display: flex;
-            justify-content: center;
+            justify-content: space-between; /* Space between form and preview */
             align-items: center;
             height: 100vh; /* Full viewport height */
             overflow: hidden; /* Prevent scrolling */
+            padding: 10px; /* Adjust padding as needed */
         }
         #formSection {
             flex: 1;
@@ -71,8 +70,8 @@
         }
         #phoneContainer {
             width: 33.33%; /* One-third of the window width */
-            max-width: 400px; /* Maximum width of the phone container */
-            height: calc(100vh - 20px); /* Fit within viewport height with some margin */
+            max-width: 360px; /* Maximum width of the phone container */
+            height: 100%; /* Fit within viewport height */
             border: 16px solid #333;
             border-radius: 36px;
             padding: 10px;
@@ -135,11 +134,10 @@
 </head>
 <body>
 <div id="step1" class="step">
-   
     <h2>Create a Twilio SMS message:</h2>
-    <p>Twilio's Programmable SMS has the features you’ll need to build quickly and scale to production. We’ve solved the hard problems so you don’t have to.  <a href="https://www.twilio.com/sms" target="_blank">Learn more about about Twilio SMS here</a>.</p>
+    <p>Twilio's Programmable SMS has the features you’ll need to build quickly and scale to production. We’ve solved the hard problems so you don’t have to. <a href="https://www.twilio.com/sms" target="_blank">Learn more about Twilio SMS here</a>.</p>
     <hr>
-     <div id="container">
+    <div id="container">
         <div id="formSection">
             <div class="form-group">
                 <div><label for="messageBody">Create message body:</label></div>
