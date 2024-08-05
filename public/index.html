@@ -33,11 +33,17 @@
                 var textAfterCursor = messageBody.val().substring(cursorPosition);
 
                 messageBody.val(textBeforeCursor + selectedField + textAfterCursor);
+                updatePreview();
             });
+            $('#messageBody').on('input', function() {
+                updatePreview();
+            });
+
+            updatePreview(); // Initial call to set the preview when the page loads
         });
     </script>
 
-    <!--Styles-->
+    <!-- Styles -->
     <style type="text/css">
         body {
             padding: 20px;
@@ -45,6 +51,25 @@
         }
         #step1 {
             display: block;
+        }
+        #messagePreview {
+            border: 1px solid #ced4da;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            position: relative;
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+        #messagePreview::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent #f8f9fa transparent transparent;
         }
     </style>
 
@@ -67,6 +92,8 @@
         </select>
     </div>
     <button class="btn btn-secondary" id="insertFieldButton">Insert Field</button>  
+    <h3>Message Preview:</h3>
+    <div id="messagePreview"></div>
      
 
 </div>
