@@ -61,9 +61,9 @@
     <div class="form-group">
         <label for="personalizationField">Insert Personalization Field:</label>
         <select class="form-control" id="personalizationField">
-            <option value="{{FirstName}}">First Name</option>
-            <option value="{{LastName}}">Last Name</option>
-            <option value="{{EmailAddress}}">Email Address</option>
+            <option value="{{Contact.Attribute.Customers.FirstName}}">First Name</option>
+            <option value="{{Contact.Attribute.Customers.LastName}}">Last Name</option>
+            <option value="{{Contact.Attribute.Customers.EmailAddress}}">Email Address</option>
         </select>
     </div>
     <button class="btn btn-secondary" id="insertFieldButton">Insert Field</button>  
