@@ -97,8 +97,7 @@ exports.execute = function (req, res) {
     
     var requestBody = req.body.inArguments[0];
 
-    const accountSid = requestBody.accountSid;
-    const authToken = requestBody.authToken;
+   
     const to = requestBody.to;
     const from = requestBody.messagingService;
     const body = requestBody.body;
@@ -110,8 +109,8 @@ exports.execute = function (req, res) {
       return new Promise((resolve, reject) => {
         const tokenData = JSON.stringify({
           "grant_type": "client_credentials",
-          "client_id":"bj7x3dtz35bgk1nm0vb1o19n",
-          "client_secret":"oEm690UazJe4Nq7m4EVEvQvE"
+          "client_id":process.env.CLIENT_ID,
+          "client_secret":process.env.CLIENT_SECRET
         });
     
         const tokenOptions = {
