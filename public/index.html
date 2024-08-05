@@ -60,24 +60,30 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            flex-wrap: wrap;
         }
         #formSection {
             flex: 1;
             margin-right: 20px;
+            max-width: 100%;
         }
         #phoneContainer {
-            width: 350px;
-            height: 600px;
+            width: 320px; /* Adjust phone width */
+            height: 600px; /* Adjust phone height */
             border: 16px solid #333;
             border-radius: 36px;
             padding: 20px;
             background: #fff;
             position: relative;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
         }
         #phoneScreen {
             width: 100%;
-            height: calc(100% - 60px);
+            height: calc(100% - 60px); /* Adjust screen height */
             background: #f8f9fa;
             border-radius: 20px;
             overflow: hidden;
