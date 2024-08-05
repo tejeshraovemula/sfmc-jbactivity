@@ -19,6 +19,15 @@
 
             require(config, dependencies); 
         })();
+        $('#insertFieldButton').click(function() {
+        var selectedField = $('#personalizationField').val();
+        var messageBody = $('#messageBody');
+        var cursorPosition = messageBody.prop("selectionStart");
+        var textBeforeCursor = messageBody.val().substring(0, cursorPosition);
+        var textAfterCursor = messageBody.val().substring(cursorPosition);
+
+        messageBody.val(textBeforeCursor + selectedField + textAfterCursor);
+    });
     </script>
 
     <!--Styles-->
@@ -40,20 +49,18 @@
     <hr>
     <div class="form-group">
         <div><label for="messageBody">Create message body:</label></div>
-        <input class="form-control" id="messageBody" type="text" name="messageBody" value="">        
-    </div>           
-    <div hidden class="form-group">
-        <div><label for="messagingService">Messaging Service SID:</label></div>
-        <input class="form-control" id="messagingService" type="text" name="messagingService" value="">
-    </div>     
-    <div hidden class="form-group">
-        <div><label for="accountSID">Account SID:</label></div>
-        <input class="form-control" id="accountSID" type="text" name="accountSID" value="">
+        <textarea class="form-control" id="messageBody" rows="4"></textarea>
     </div>
-    <div hidden class="form-group">
-        <div><label for="authToken">Auth Token:</label></div>
-        <input class="form-control" id="authToken" type="text" name="authToken" value="">
-    </div>    
+    <div class="form-group">
+        <label for="personalizationField">Insert Personalization Field:</label>
+        <select class="form-control" id="personalizationField">
+            <option value="{{FirstName}}">First Name</option>
+            <option value="{{LastName}}">Last Name</option>
+            <option value="{{EmailAddress}}">Email Address</option>
+        </select>
+    </div>
+    <button class="btn btn-secondary" id="insertFieldButton">Insert Field</button>  
+     
 
 </div>
 </body>
