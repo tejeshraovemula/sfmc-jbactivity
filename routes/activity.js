@@ -155,7 +155,7 @@ exports.execute = function (req, res) {
         const recordData = JSON.stringify([
           {
                 "requestUUID": "REQ_1709981883916", 
-                "To": mobile, 
+                "To": to, 
                 "From": "+16507191378",
                 "Body": body
           }
