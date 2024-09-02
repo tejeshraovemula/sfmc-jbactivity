@@ -87,8 +87,8 @@ define([
         payload['arguments'].execute.inArguments = [{
            
             "body": body,
-            "to": "{{Contact.Attribute.Customers.Phone}}",
-            "contactKey":"{{Contact.Attribute.Customers.ContactKey}}"
+            "to": "{{Contact.Attribute.MobileCustomers.Phone}}",
+            "contactKey":"{{Contact.Attribute.MobileCustomers.ContactKey}}"
         }];
 
         payload['metaData'].isConfigured = true;
