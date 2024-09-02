@@ -16,10 +16,10 @@
         "execute": {
             "inArguments": [
                 {
-                   "email": "{{Contact.Attribute.Customers.EmailAddress}}",
-                  "to": "{{Contact.Attribute.Customers.Phone}}" ,
-                  "contactKey":"{{Contact.Attribute.Customers.ContactKey}}",
-                  "fname":"{{Contact.Attribute.Customers.FirstName}}" 
+                   "email": "{{Contact.Attribute.MobileCustomers.EmailAddress}}",
+                  "to": "{{Contact.Attribute.MobileCustomers.Phone}}" ,
+                  "contactKey":"{{Contact.Attribute.MobileCustomers.ContactKey}}",
+                  "fname":"{{Contact.Attribute.MobileCustomers.FirstName}}" 
                 }               
             ],
             "outArguments": [],
