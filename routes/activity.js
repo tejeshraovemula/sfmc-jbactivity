@@ -98,7 +98,7 @@ exports.execute = function (req, res) {
     var requestBody = req.body.inArguments[0];
 
    
-    const to = requestBody.to;
+    const to = "+91"+requestBody.to;
     const from = requestBody.messagingService;
     const body = requestBody.body;
     const contactKey = requestBody.contactKey;
