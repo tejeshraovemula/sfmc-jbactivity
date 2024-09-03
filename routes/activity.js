@@ -112,7 +112,7 @@ exports.execute = function (req, res) {
           "client_id":process.env.CLIENT_ID,
           "client_secret":process.env.CLIENT_SECRET
         });
-    
+        console.log("Token Data:", tokenData);
         const tokenOptions = {
           hostname: process.env.AUTH_HOST,
           port: 443,
@@ -122,7 +122,7 @@ exports.execute = function (req, res) {
             'Content-Type': 'application/json'
           }
         };
-    
+        console.log(`Request URL: https://${process.env.AUTH_HOST}${process.env.AUTH_PATH}`);
         const tokenReq = https.request(tokenOptions, (tokenRes) => {
           let tokenResponseBody = '';
     
