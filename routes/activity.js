@@ -114,9 +114,9 @@ exports.execute = function (req, res) {
         });
     
         const tokenOptions = {
-          hostname: 'mc2-qgk1nhxg1mljb37pr3-6x9q4.auth.marketingcloudapis.com',
+          hostname: process.env.AUTH_HOST,
           port: 443,
-          path: '/v2/token',
+          path: process.env.AUTH_PATH,
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -165,9 +165,9 @@ exports.execute = function (req, res) {
         ]);
     
         const recordOptions = {
-          hostname: 'mc2-qgk1nhxg1mljb37pr3-6x9q4.rest.marketingcloudapis.com',
+          hostname: process.env.API_HOST,
           port: 443,
-          path: '/hub/v1/dataevents/key:EAB3AF1A-A7A9-4CAD-88D7-87BFF29AD607/rowset',
+          path: process.env.API_PATH,
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -217,7 +217,7 @@ exports.execute = function (req, res) {
     res.send(200, 'Execute');
 
     // Used to decode JWT
-     JWT(req.body, process.env.jwtSecret, (err, decoded) => {
+    /* JWT(req.body, process.env.jwtSecret, (err, decoded) => {
 
          // verification error -> unauthorized request
          if (err) {
@@ -236,7 +236,7 @@ exports.execute = function (req, res) {
              console.error('inArguments invalid.');
              return res.status(400).end();
          }
-     });
+     });*/
 };
 
 
