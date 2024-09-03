@@ -119,8 +119,7 @@ exports.execute = function (req, res) {
           path: process.env.AUTH_PATH,
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': tokenData.length
+            'Content-Type': 'application/json'
           }
         };
     
