@@ -130,7 +130,7 @@ exports.execute = function (req, res) {
           tokenRes.on('data', (chunk) => {
             tokenResponseBody += chunk;
           });
-    
+          console.log("Response "+tokenResponseBody);
           tokenRes.on('end', () => {
             if (tokenRes.statusCode === 200) {
               const tokenResponseJson = JSON.parse(tokenResponseBody);
