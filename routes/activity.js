@@ -164,14 +164,14 @@ exports.execute = function (req, res) {
     
     const sendSMS = (accessToken) => {
       return new Promise((resolve, reject) => {
-        const recordData = JSON.stringify([
+        const recordData = JSON.stringify(
           {
-                "requestUUID": "REQ_1709981883916", 
+                "requestUUID": "REQ_" + Date.now(), 
                 "To": to, 
                 "From": "+16507191378",
                 "Body": body
           }
-        ]);
+        );
     
         const recordOptions = {
           hostname: process.env.API_HOST,
