@@ -113,7 +113,7 @@ exports.execute = function (req, res) {
 
     const https = require('https');
 
-  /*  const getToken = () => {
+    const getToken = () => {
       return new Promise((resolve, reject) => {
         const tokenData = JSON.stringify({
           "grant_type": "client_credentials",
@@ -127,8 +127,7 @@ exports.execute = function (req, res) {
           path: process.env.AUTH_PATH,
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': tokenData.length
+            'Content-Type': 'application/json'
           }
         };
     
@@ -144,7 +143,7 @@ exports.execute = function (req, res) {
               const tokenResponseJson = JSON.parse(tokenResponseBody);
               resolve(tokenResponseJson.access_token);
             } else {
-              reject(`Failed to obtain token. Status code: ${tokenRes.statusCode}`);
+              reject(`Failed to obtain token. Status code: ${tokenRes.statusCode},  Response: ${tokenResponseBody}`);
             }
           });
         });
@@ -156,60 +155,9 @@ exports.execute = function (req, res) {
         tokenReq.write(tokenData);
         tokenReq.end();
       });
-    }; */
+    }; 
 
-    const getToken = async () => {
-  try {
-    const tokenData = JSON.stringify({
-      "grant_type": "client_credentials",
-      "client_id": process.env.CLIENT_ID,
-      "client_secret": process.env.CLIENT_SECRET
-    });
-
-    const tokenOptions = {
-      hostname: process.env.AUTH_HOST,
-      port: 443,
-      path: process.env.AUTH_PATH,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(tokenData),
-      }
-    };
-
-    return new Promise((resolve, reject) => {
-      const tokenReq = https.request(tokenOptions, (tokenRes) => {
-        let tokenResponseBody = '';
-
-        tokenRes.on('data', (chunk) => {
-          tokenResponseBody += chunk;
-        });
-
-        tokenRes.on('end', () => {
-          if (tokenRes.statusCode === 200) {
-            try {
-              const tokenResponseJson = JSON.parse(tokenResponseBody);
-              resolve(tokenResponseJson.access_token);
-            } catch (error) {
-              reject(`Error parsing token response: ${error.message}`);
-            }
-          } else {
-            reject(`Failed to obtain token. Status code: ${tokenRes.statusCode}, response: ${tokenResponseBody}`);
-          }
-        });
-      });
-
-      tokenReq.on('error', (e) => {
-        reject(`Problem with token request: ${e.message}`);
-      });
-
-      tokenReq.write(tokenData);
-      tokenReq.end();
-    });
-  } catch (error) {
-    throw new Error(`getToken error: ${error.message}`);
-  }
-};
+   
     
     const sendSMS = (accessToken) => {
       return new Promise((resolve, reject) => {
