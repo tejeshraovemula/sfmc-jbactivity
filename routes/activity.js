@@ -21,7 +21,7 @@ function logData(req) {
         cookies: req.cookies,
         ip: req.ip,
         path: req.path, 
-        host: req.host,
+        host: req.hostname,
         fresh: req.fresh,
         stale: req.stale,
         protocol: req.protocol,
@@ -35,11 +35,11 @@ function logData(req) {
     console.log("url: " + req.url);
     console.log("params: " + util.inspect(req.params));
     console.log("query: " + util.inspect(req.query));
-    console.log("route: " + req.route);
+    console.log("route: " + JSON.stringify(req.route));
     console.log("cookies: " + req.cookies);
     console.log("ip: " + req.ip);
     console.log("path: " + req.path);
-    console.log("host: " + req.host);
+    console.log("host: " + req.hostname);
     console.log("fresh: " + req.fresh);
     console.log("stale: " + req.stale);
     console.log("protocol: " + req.protocol);
@@ -57,12 +57,13 @@ exports.edit = function (req, res) {
     console.log("3");	
     console.log("2");	
     console.log("1");	
-    //console.log("Edited: "+req.body.inArguments[0]);    
+    console.log("Edited: "+req.body.inArguments[0]);    
     
     // Data from the req and put it in an array accessible to the main app.
-    //console.log( req.body );
+    console.log( req.body );
     logData(req);
-    res.send(200, 'Edit');
+    //res.send(200, 'Edit');
+    res.status(200).send('Edit');
 };
 
 /*
@@ -80,7 +81,9 @@ exports.save = function (req, res) {
     // Data from the req and put it in an array accessible to the main app.
     console.log( req.body );
     logData(req);
-    res.send(200, 'Save');
+    //res.send(200, 'Save');
+    res.status(200).send('Save');
+    
 };
 
 /*
@@ -98,44 +101,48 @@ exports.execute = function (req, res) {
     var requestBody = req.body.inArguments[0];
 
    
-    const to = requestBody.to;
+    const to = "+91"+requestBody.to;
     const from = requestBody.messagingService;
     const body = requestBody.body;
     const contactKey = requestBody.contactKey;
+
 
     const https = require('https');
 
     const getToken = () => {
       return new Promise((resolve, reject) => {
         const tokenData = JSON.stringify({
-          "grant_type": "client_credentials",
-          "client_id":process.env.CLIENT_ID,
-          "client_secret":process.env.CLIENT_SECRET
+          grant_type: "client_credentials",
+          client_id:process.env.CLIENT_ID,
+          client_secret:process.env.CLIENT_SECRET
         });
-        console.log("Token Data:", tokenData);
+    
         const tokenOptions = {
           hostname: process.env.AUTH_HOST,
           port: 443,
           path: process.env.AUTH_PATH,
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'grant_type': "client_credentials",
+            'client_id':process.env.CLIENT_ID,
+            'client_secret':process.env.CLIENT_SECRET
           }
         };
-        console.log(`Request URL: https://${process.env.AUTH_HOST}${process.env.AUTH_PATH}`);
+    
         const tokenReq = https.request(tokenOptions, (tokenRes) => {
           let tokenResponseBody = '';
     
           tokenRes.on('data', (chunk) => {
             tokenResponseBody += chunk;
           });
-          console.log("Response "+tokenResponseBody);
+    
           tokenRes.on('end', () => {
             if (tokenRes.statusCode === 200) {
               const tokenResponseJson = JSON.parse(tokenResponseBody);
               resolve(tokenResponseJson.access_token);
             } else {
-              reject(`Failed to obtain token. Status code: ${tokenRes.statusCode}`);
+              reject(`Failed to obtain token. Status code: ${tokenRes.statusCode},  Response: ${tokenResponseBody}`);
             }
           });
         });
@@ -143,25 +150,24 @@ exports.execute = function (req, res) {
         tokenReq.on('error', (e) => {
           reject(`Problem with token request: ${e.message}`);
         });
-    
-        tokenReq.write(tokenData);
+        console.log('Sending token request with data:', tokenData);
+        //tokenReq.write(tokenData);
         tokenReq.end();
       });
-    };
+    }; 
+
+   
     
-    const insertRecord = (accessToken) => {
+    const sendSMS = (accessToken) => {
       return new Promise((resolve, reject) => {
-        const recordData = JSON.stringify([
+        const recordData = JSON.stringify(
           {
-            "keys": {
-              "ContactId": contactKey
-            },
-            "values": {
-              "Message": body,
-              "Date": "12-12-2023"
-            }
+                "requestUUID": "REQ_" + Date.now(), 
+                "To": to, 
+                "From": "+16507191378",
+                "Body": body
           }
-        ]);
+        );
     
         const recordOptions = {
           hostname: process.env.API_HOST,
@@ -184,9 +190,9 @@ exports.execute = function (req, res) {
     
           recordRes.on('end', () => {
             if (recordRes.statusCode === 200 || recordRes.statusCode === 201) {
-              resolve(`Record inserted successfully. Response: ${recordResponseBody}`);
+              resolve(`SMS Sent successfully. Response: ${recordResponseBody}`);
             } else {
-              reject(`Failed to insert record. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
+              reject(`Failed to send SMS. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
             }
           });
         });
@@ -203,7 +209,7 @@ exports.execute = function (req, res) {
     getToken()
       .then((accessToken) => {
         console.log('Access Token:', accessToken);
-        return insertRecord(accessToken);
+        return sendSMS(accessToken);
       })
       .then((response) => {
         console.log(response);
@@ -213,7 +219,8 @@ exports.execute = function (req, res) {
       });
     // FOR TESTING
     logData(req);
-    res.send(200, 'Execute');
+    //res.send(200, 'Execute');
+     res.status(200).send('Execute');
 
     // Used to decode JWT
     /* JWT(req.body, process.env.jwtSecret, (err, decoded) => {
@@ -230,7 +237,8 @@ exports.execute = function (req, res) {
              var decodedArgs = decoded.inArguments[0];
             
              logData(req);
-             res.send(200, 'Execute');
+             //res.send(200, 'Execute');
+             res.status(200).send('Execute');
          } else {
              console.error('inArguments invalid.');
              return res.status(400).end();
@@ -254,7 +262,8 @@ exports.publish = function (req, res) {
     // Data from the req and put it in an array accessible to the main app.
     //console.log( req.body );
 //     logData(req);
-     res.send(200, 'Publish');
+    // res.send(200, 'Publish');
+      res.status(200).send('Publish');
 };
 
 /*
@@ -272,5 +281,6 @@ exports.validate = function (req, res) {
     // Data from the req and put it in an array accessible to the main app.
     //console.log( req.body );
     logData(req);
-    res.send(200, 'Validate');
+   // res.send(200, 'Validate');
+      res.status(200).send('Validate');
 };
