@@ -116,9 +116,9 @@ exports.execute = function (req, res) {
     const getToken = () => {
       return new Promise((resolve, reject) => {
         const tokenData = JSON.stringify({
-          "grant_type": "client_credentials",
-          "client_id":process.env.CLIENT_ID,
-          "client_secret":process.env.CLIENT_SECRET
+          grant_type: "client_credentials",
+          client_id:process.env.CLIENT_ID,
+          client_secret:process.env.CLIENT_SECRET
         });
     
         const tokenOptions = {
