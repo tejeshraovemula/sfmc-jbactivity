@@ -151,7 +151,7 @@ exports.execute = function (req, res) {
         tokenReq.on('error', (e) => {
           reject(`Problem with token request: ${e.message}`);
         });
-    
+        console.log('Sending token request with data:', tokenData);
         tokenReq.write(tokenData);
         tokenReq.end();
       });
