@@ -7,9 +7,8 @@
     "type": "REST",
     "lang": {
        "en-US": {
-           "name": "Twilio Heroku SMS",
-           "description": "Send Twilio SMS with Journey Builder",
-           "TwilioMessage":"test"
+           "name": "Twilio SMS",
+           "description": "Send Twilio SMS with Journey Builder"
        }
     },
     "arguments": {
