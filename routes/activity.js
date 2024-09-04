@@ -98,10 +98,15 @@ exports.execute = function (req, res) {
     var requestBody = req.body.inArguments[0];
 
    
-    const to = "+91"+requestBody.to;
+  /*  const to = "+91"+requestBody.to;
     const from = requestBody.messagingService;
     const body = requestBody.body;
-    const contactKey = requestBody.contactKey;
+    const contactKey = requestBody.contactKey;*/
+
+    const to = "+919492860545";
+    const from = "+16507191378";
+    const body = "Test Message from Heroku Custom UI";
+    const contactKey = "TEST_KEY";
 
     const https = require('https');
 
