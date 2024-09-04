@@ -127,7 +127,10 @@ exports.execute = function (req, res) {
           path: process.env.AUTH_PATH,
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'grant_type': "client_credentials",
+            'client_id':process.env.CLIENT_ID,
+            'client_secret':process.env.CLIENT_SECRET
           }
         };
     
@@ -152,7 +155,7 @@ exports.execute = function (req, res) {
           reject(`Problem with token request: ${e.message}`);
         });
         console.log('Sending token request with data:', tokenData);
-        tokenReq.write(tokenData);
+        //tokenReq.write(tokenData);
         tokenReq.end();
       });
     }; 
