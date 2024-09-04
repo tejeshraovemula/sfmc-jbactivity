@@ -80,7 +80,9 @@ exports.save = function (req, res) {
     // Data from the req and put it in an array accessible to the main app.
     console.log( req.body );
     logData(req);
-    res.send(200, 'Save');
+    //res.send(200, 'Save');
+    res.status(200).send('Save);
+    
 };
 
 /*
@@ -216,7 +218,8 @@ exports.execute = function (req, res) {
       });
     // FOR TESTING
     logData(req);
-    res.send(200, 'Execute');
+    //res.send(200, 'Execute');
+     res.status(200).send('Execute');
 
     // Used to decode JWT
     /* JWT(req.body, process.env.jwtSecret, (err, decoded) => {
