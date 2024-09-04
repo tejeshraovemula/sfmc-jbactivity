@@ -150,7 +150,7 @@ exports.execute = function (req, res) {
       });
     };
     
-    const insertRecord = (accessToken) => {
+    const sendSMS = (accessToken) => {
       return new Promise((resolve, reject) => {
         const recordData = JSON.stringify([
           {
@@ -182,9 +182,9 @@ exports.execute = function (req, res) {
     
           recordRes.on('end', () => {
             if (recordRes.statusCode === 200 || recordRes.statusCode === 201) {
-              resolve(`Record inserted successfully. Response: ${recordResponseBody}`);
+              resolve(`SMS Sent successfully. Response: ${recordResponseBody}`);
             } else {
-              reject(`Failed to insert record. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
+              reject(`Failed to send SMS. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
             }
           });
         });
@@ -201,7 +201,7 @@ exports.execute = function (req, res) {
     getToken()
       .then((accessToken) => {
         console.log('Access Token:', accessToken);
-        return insertRecord(accessToken);
+        return sendSMS(accessToken);
       })
       .then((response) => {
         console.log(response);
@@ -214,7 +214,7 @@ exports.execute = function (req, res) {
     res.send(200, 'Execute');
 
     // Used to decode JWT
-     JWT(req.body, process.env.jwtSecret, (err, decoded) => {
+    /* JWT(req.body, process.env.jwtSecret, (err, decoded) => {
 
          // verification error -> unauthorized request
          if (err) {
@@ -233,7 +233,7 @@ exports.execute = function (req, res) {
              console.error('inArguments invalid.');
              return res.status(400).end();
          }
-     });
+     });*/
 };
 
 
