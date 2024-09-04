@@ -35,7 +35,7 @@ function logData(req) {
     console.log("url: " + req.url);
     console.log("params: " + util.inspect(req.params));
     console.log("query: " + util.inspect(req.query));
-    console.log("route: " + req.route);
+    console.log("route: " + JSON.stringify(req.route));
     console.log("cookies: " + req.cookies);
     console.log("ip: " + req.ip);
     console.log("path: " + req.path);
