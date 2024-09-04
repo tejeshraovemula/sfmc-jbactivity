@@ -98,7 +98,7 @@ exports.execute = function (req, res) {
     console.log("1");	
     //console.log("Executed: "+req.body.inArguments[0]);
     
-    var requestBody = req.body.inArguments[0];
+  //  var requestBody = req.body.inArguments[0];
 
    
   /*  const to = "+91"+requestBody.to;
