@@ -97,7 +97,7 @@ exports.execute = function (req, res) {
     var requestBody = req.body.inArguments[0];
 
    
-    const to = requestBody.code+requestBody.to;
+    const to = "+"+requestBody.to;
     const from = process.env.SENDER_PHONE;
     const body = requestBody.body;
     const contactKey = requestBody.contactKey;
