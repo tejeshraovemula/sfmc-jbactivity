@@ -200,7 +200,8 @@ exports.execute = function (req, res) {
         recordReq.on('error', (e) => {
           reject(`Problem with record request: ${e.message}`);
         });
-    
+        console.log("Request URL: https://"+process.env.API_HOST+process.env.API_PATH);
+        console.log("Req Body: "+recordData);
         recordReq.write(recordData);
         recordReq.end();
       });
