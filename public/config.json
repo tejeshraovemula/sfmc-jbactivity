@@ -18,7 +18,7 @@
                   "to": "{{Contact.Attribute.Customers.Phone}}" ,
                   "contactKey":"{{Contact.Attribute.Customers.ContactKey}}",
                   "fname":"{{Contact.Attribute.Customers.FirstName}}", 
-                  "lname":"{{Contact.Attribute.Customers.LastName}}"
+                  "lname":"{{Contact.Attribute.Customers.LastName}}",
                   "code":"{{Contact.Attribute.Customers.CountryCode}}"
                 }               
             ],
