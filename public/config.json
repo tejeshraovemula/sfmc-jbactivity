@@ -77,15 +77,22 @@
                 "inArguments": [
                                
                     {
-                        "from": {
+                        "to": {
                             "dataType": "Phone",
                             "isNullable": true,
                             "direction": "out"   
                         }
-                    },                    
+                    },  
                     {
-                        "to": {
-                            "dataType": "Phone",
+                        "contactKey": {
+                            "dataType": "String",
+                            "isNullable": true,
+                            "direction": "out"   
+                        }
+                    },
+                    {
+                        "fname": {
+                            "dataType": "String",
                             "isNullable": false,
                             "direction": "out"   
                         }
@@ -98,8 +105,15 @@
                         }
                     },                    
                     {
-                        "email": {
-                            "dataType": "Email",
+                        "lname": {
+                            "dataType": "String",
+                            "isNullable": true,
+                            "direction": "out"
+                        }
+                    },
+                    {
+                        "code": {
+                            "dataType": "String",
                             "isNullable": true,
                             "direction": "out"
                         }
