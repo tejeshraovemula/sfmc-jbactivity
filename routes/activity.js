@@ -3,7 +3,7 @@ var util = require('util');
 
 // Deps
 const Path = require('path');
-const JWT = require(Path.join(__dirname, '..', 'lib', 'jwtDecoder.js'));
+//const JWT = require(Path.join(__dirname, '..', 'lib', 'jwtDecoder.js'));
 var http = require('https');
 
 exports.logExecuteData = [];
@@ -93,9 +93,9 @@ exports.save = function (req, res) {
 exports.execute = function (req, res) {
 
    
-    console.log("Executed: "+JSON.stringify(req.body.inArguments[0]));
+    console.log("Executed: "+JSON.stringify(req.user.inArguments[0]));
     
-    var requestBody = req.body.inArguments[0];
+    var requestBody = req.user.inArguments[0];
 
    
     const to = "+91"+requestBody.to;
@@ -264,32 +264,10 @@ exports.publish = function (req, res) {
  * POST Handler for /validate/ route of Activity.
  */
 exports.validate = function (req, res) {
-    JWT(req.body, process.env.jwtSecret, (err, decoded) => {
-
-         // verification error -> unauthorized request
-         if (err) {
-             console.error(err);
-             return res.status(401).end();
-         }
-
-         if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
-            
-             // decoded in arguments
-             var decodedArgs = decoded.inArguments[0];
-             //CODE START
-             console.log("Validated: "+decodedArgs);  
-             logData(req);
-             res.status(200).send('Validate');
-             //CODE END
-            
-             logData(req);
-             //res.send(200, 'Execute');
-             res.status(200).send('Execute');
-         } else {
-             console.error('inArguments invalid.');
-             return res.status(400).end();
-         }
-     });
    
+     console.log("Validated: "+req.user);  
+     logData(req);
+     res.status(200).send('Validate');
+             
       
 };
