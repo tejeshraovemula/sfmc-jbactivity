@@ -101,8 +101,8 @@ exports.execute = function (req, res) {
     var requestBody = req.body.inArguments[0];
 
    
-    const to = "+91"+requestBody.to;
-    const from = requestBody.messagingService;
+    const to = requestBody.to;
+    const from = process.env.SENDER_PHONE;
     const body = requestBody.body;
     const contactKey = requestBody.contactKey;
 
@@ -164,7 +164,7 @@ exports.execute = function (req, res) {
           {
                 "requestUUID": "REQ_" + Date.now(), 
                 "To": to, 
-                "From": "+16507191378",
+                "From": from,
                 "Body": body
           }
         );
