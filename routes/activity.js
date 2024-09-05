@@ -214,7 +214,7 @@ exports.execute = function (req, res) {
      res.status(200).send('Execute');
 
     // Used to decode JWT
-    /* JWT(req.body, process.env.jwtSecret, (err, decoded) => {
+    JWT(req.body, process.env.jwtSecret, (err, decoded) => {
 
          // verification error -> unauthorized request
          if (err) {
@@ -226,6 +226,9 @@ exports.execute = function (req, res) {
             
              // decoded in arguments
              var decodedArgs = decoded.inArguments[0];
+             //CODE START
+
+             //CODE END
             
              logData(req);
              //res.send(200, 'Execute');
@@ -234,7 +237,7 @@ exports.execute = function (req, res) {
              console.error('inArguments invalid.');
              return res.status(400).end();
          }
-     });*/
+     });
 };
 
 
@@ -261,17 +264,32 @@ exports.publish = function (req, res) {
  * POST Handler for /validate/ route of Activity.
  */
 exports.validate = function (req, res) {
+    JWT(req.body, process.env.jwtSecret, (err, decoded) => {
 
-    console.log("5 -- For Validate");	
-    console.log("4");	
-    console.log("3");	
-    console.log("2");	
-    console.log("1");	
-    //console.log("Validated: "+req.body.inArguments[0]);       
-    
-    // Data from the req and put it in an array accessible to the main app.
-    //console.log( req.body );
-    logData(req);
-   // res.send(200, 'Validate');
-      res.status(200).send('Validate');
+         // verification error -> unauthorized request
+         if (err) {
+             console.error(err);
+             return res.status(401).end();
+         }
+
+         if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
+            
+             // decoded in arguments
+             var decodedArgs = decoded.inArguments[0];
+             //CODE START
+             console.log("Validated: "+decodedArgs);  
+             logData(req);
+             res.status(200).send('Validate');
+             //CODE END
+            
+             logData(req);
+             //res.send(200, 'Execute');
+             res.status(200).send('Execute');
+         } else {
+             console.error('inArguments invalid.');
+             return res.status(400).end();
+         }
+     });
+   
+      
 };
