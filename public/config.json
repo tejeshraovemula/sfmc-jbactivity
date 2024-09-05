@@ -31,7 +31,7 @@
         }
     },
     "configurationArguments": {
-      "applicationExtensionKey": "db6d6f6b-f649-43d4-a8af-bc0aaacfd6dc",
+      "applicationExtensionKey": "2a7116a4-8ac3-4c53-b258-ea1fe503fe6e",
        "save": {
            "url": "https://twilio-integration-3438876a2dda.herokuapp.com/journeybuilder/save",
             "verb": "POST",
