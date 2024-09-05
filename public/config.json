@@ -7,7 +7,7 @@
     "type": "REST",
     "lang": {
        "en-US": {
-           "name": "Twilio Heroku SMS",
+           "name": "Twilio 4CL SMS",
            "description": "Send Twilio SMS with Journey Builder"
        }
     },
