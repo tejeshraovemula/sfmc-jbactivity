@@ -24,9 +24,8 @@
             "outArguments": [],
             "url": "https://twilio-integration-3438876a2dda.herokuapp.com/journeybuilder/execute",
             "verb": "POST",
-            "body": "",
             "format": "json",
-            "useJwt": true,
+            "useJwt": false,
             "timeout": 2000
         }
     },
@@ -35,33 +34,29 @@
        "save": {
            "url": "https://twilio-integration-3438876a2dda.herokuapp.com/journeybuilder/save",
             "verb": "POST",
-            "body": "",
             "format": "json",
-            "useJwt": true,
+            "useJwt": false,
             "timeout": 2000
        },
        "publish": {
            "url": "https://twilio-integration-3438876a2dda.herokuapp.com/journeybuilder/publish",
             "verb": "POST",
-            "body": "",
             "format": "json",
-            "useJwt": true,
+            "useJwt": false,
             "timeout": 2000
        },
        "validate": {
            "url": "https://twilio-integration-3438876a2dda.herokuapp.com/journeybuilder/validate",
             "verb": "POST",
-            "body": "",
             "format": "json",
-            "useJwt": true,
+            "useJwt": false,
             "timeout": 2000
        },
        "stop": {
            "url": "https://twilio-integration-3438876a2dda.herokuapp.com/journeybuilder/stop",
             "verb": "POST",
-            "body": "",
             "format": "json",
-            "useJwt": true,
+            "useJwt": false,
             "timeout": 2000
        }
     },
