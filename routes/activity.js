@@ -29,7 +29,7 @@ function logData(req) {
         originalUrl: req.originalUrl
     });
     console.log("body: " + util.inspect(req.body));
-    console.log("headers: " + req.headers);
+    console.log("headers: " + JSON.stringify(req.headers));
     console.log("trailers: " + req.trailers);
     console.log("method: " + req.method);
     console.log("url: " + req.url);
@@ -91,12 +91,8 @@ exports.save = function (req, res) {
  */
 exports.execute = function (req, res) {
 
-    console.log("5 -- For Execute");	
-    console.log("4");	
-    console.log("3");	
-    console.log("2");	
-    console.log("1");	
-    //console.log("Executed: "+req.body.inArguments[0]);
+   
+    console.log("Executed: "+JSON.stringify(req.body.inArguments[0]));
     
     var requestBody = req.body.inArguments[0];
 
@@ -111,11 +107,6 @@ exports.execute = function (req, res) {
 
     const getToken = () => {
       return new Promise((resolve, reject) => {
-        const tokenData = JSON.stringify({
-          grant_type: "client_credentials",
-          client_id:process.env.CLIENT_ID,
-          client_secret:process.env.CLIENT_SECRET
-        });
     
         const tokenOptions = {
           hostname: process.env.AUTH_HOST,
@@ -150,8 +141,7 @@ exports.execute = function (req, res) {
         tokenReq.on('error', (e) => {
           reject(`Problem with token request: ${e.message}`);
         });
-        console.log('Sending token request with data:', tokenData);
-        //tokenReq.write(tokenData);
+    
         tokenReq.end();
       });
     }; 
