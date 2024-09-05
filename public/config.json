@@ -19,6 +19,7 @@
                   "contactKey":"{{Contact.Attribute.Customers.ContactKey}}",
                   "fname":"{{Contact.Attribute.Customers.FirstName}}", 
                   "lname":"{{Contact.Attribute.Customers.LastName}}"
+                  "code":"{{Contact.Attribute.Customers.CountryCode}}"
                 }               
             ],
             "outArguments": [],
