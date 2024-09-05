@@ -9,6 +9,7 @@ var path        = require('path');
 var request     = require('request');
 var routes      = require('./routes');
 var activity    = require('./routes/activity');
+const verifyJWT = require(Path.join(__dirname, '..', 'lib', 'jwtDecoder.js'));
 
 var app = express();
 
@@ -33,10 +34,10 @@ app.post('/login', routes.login );
 app.post('/logout', routes.logout );
 
 // Custom Hello World Activity Routes
-app.post('/journeybuilder/save/', activity.save );
-app.post('/journeybuilder/validate/', activity.validate );
-app.post('/journeybuilder/publish/', activity.publish );
-app.post('/journeybuilder/execute/', activity.execute );
+app.post('/journeybuilder/save/', verifyJWT, activity.save );
+app.post('/journeybuilder/validate/', verifyJWT, activity.validate );
+app.post('/journeybuilder/publish/', verifyJWT, activity.publish );
+app.post('/journeybuilder/execute/', verifyJWT, activity.execute );
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
