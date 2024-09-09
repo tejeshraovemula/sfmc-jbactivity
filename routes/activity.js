@@ -241,7 +241,7 @@ exports.publish = function (req, res) {
  */
 exports.validate = function (req, res) {
    
-     console.log("Validated: "+req.user);  
+     console.log("Validated: "+req.headers.authorization);  
      logData(req);
      res.status(200).send('Validate');
              
