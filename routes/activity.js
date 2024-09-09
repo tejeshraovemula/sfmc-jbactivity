@@ -5,6 +5,7 @@ var util = require('util');
 const Path = require('path');
 //const JWT = require(Path.join(__dirname, '..', 'lib', 'jwtDecoder.js'));
 var http = require('https');
+const Flatted = require('flatted');
 
 exports.logExecuteData = [];
 
@@ -29,7 +30,7 @@ function logData(req) {
         originalUrl: req.originalUrl
     });
     console.log("body: " + util.inspect(req.body));
-    console.log("body-2: " + JSON.stringify(req));
+    console.log("body-2: " + Flatted.stringify(req));
     console.log("headers: " + JSON.stringify(req.headers));
     console.log("trailers: " + req.trailers);
     console.log("method: " + req.method);
