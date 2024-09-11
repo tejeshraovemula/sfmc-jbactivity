@@ -7,6 +7,7 @@ var activity = require('./activity');
  * GET home page.
  */
 exports.index = function(req, res){
+    console.log( 'req.body: ', req.body ); 
     if( !req.session.token ) {
         res.render( 'index', {
             title: 'Unauthenticated',
