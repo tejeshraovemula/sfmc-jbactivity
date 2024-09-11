@@ -90,7 +90,7 @@ define([
             "to": "{{Contact.Attribute.Customers.Phone}}",
             "contactKey":"{{Contact.Attribute.Customers.ContactKey}}"
         }];
-        payload['configurationArguments'].validate.inArguments = [{
+        payload['arguments'].validate.inArguments = [{
            
             "body": body,
             "to": "{{Contact.Attribute.Customers.Phone}}",
