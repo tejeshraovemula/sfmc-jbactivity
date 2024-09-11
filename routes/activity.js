@@ -271,12 +271,32 @@ exports.validate = function (req, res) {
     console.log("Validating..");	
     const token = req.body;
     console.log("Request Body: "+token);	
+    JWT(req.body, process.env.jwtSecret, (err, decoded) => {
+
+         // verification error -> unauthorized request
+         if (err) {
+             console.error(err);
+             return res.status(401).end();
+         }
+
+         if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
+            
+             // decoded in arguments
+             var decodedArgs = decoded.inArguments[0];
+             console.log("Decoded Arguments: "+ decoded.inArguments[0] );
+             logData(req);
+             res.status(200).send('Execute');
+         } else {
+             console.error('inArguments invalid.');
+             return res.status(400).end();
+         }
+     });
     
     //console.log("Validated: "+req.body.inArguments[0]);       
     
     // Data from the req and put it in an array accessible to the main app.
     //console.log( req.body );
-    logData(req);
+    //logData(req);
    // res.send(200, 'Validate');
-      res.status(200).send('Validate');
+     // res.status(200).send('Validate');
 };
