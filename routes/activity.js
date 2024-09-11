@@ -295,11 +295,9 @@ exports.validate = function (req, res) {
              return res.status(401).end();
          }
          console.log("Decoded :"+JSON.stringify(decoded));
-         if (decoded ) {
-            
+         if (decoded ) {  
              // decoded in arguments
-             var decodedArgs = decoded.inArguments[0];
-             console.log("Decoded Arguments: "+ decoded.inArguments[0] );
+             console.log("Decoded :"+JSON.stringify(decoded));
              logData(req);
              res.status(200).send('Execute');
          } else {
