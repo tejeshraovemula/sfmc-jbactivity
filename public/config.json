@@ -138,6 +138,54 @@
                     }
                 ],
                 "outArguments": []
+            },
+            "validate": {
+                "inArguments": [
+                               
+                    {
+                        "to": {
+                            "dataType": "Phone",
+                            "isNullable": true,
+                            "direction": "out"   
+                        }
+                    },  
+                    {
+                        "contactKey": {
+                            "dataType": "String",
+                            "isNullable": true,
+                            "direction": "out"   
+                        }
+                    },
+                    {
+                        "fname": {
+                            "dataType": "String",
+                            "isNullable": false,
+                            "direction": "out"   
+                        }
+                    },
+                    {
+                        "body": {
+                            "dataType": "String",
+                            "isNullable": false,
+                            "direction": "out"   
+                        }
+                    },                    
+                    {
+                        "lname": {
+                            "dataType": "String",
+                            "isNullable": true,
+                            "direction": "out"
+                        }
+                    },
+                    {
+                        "code": {
+                            "dataType": "String",
+                            "isNullable": true,
+                            "direction": "out"
+                        }
+                    }
+                ],
+                "outArguments": []
             }
         }
     }
