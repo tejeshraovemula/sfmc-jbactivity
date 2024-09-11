@@ -278,7 +278,7 @@ exports.validate = function (req, res) {
              console.error(err);
              return res.status(401).end();
          }
-         console.log("Decoded :"+decoded);
+         console.log("Decoded :"+JSON.stringify(decoded));
          if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
             
              // decoded in arguments
