@@ -48,7 +48,7 @@
        },
     },
     "configurationArguments": {
-      "applicationExtensionKey": "2a7116a4-8ac3-4c53-b258-ea1fe503fe6e",
+      "applicationExtensionKey": "a3c085ea-feff-4bb0-b2f3-9d3cffecc7e0",
        "save": {
            "url": "https://heroku-twilioapi.clarienbank.com/journeybuilder/save",
            "headers": "{\"Authorization\":\"Bearer theToken\"}",
