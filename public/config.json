@@ -28,7 +28,24 @@
             "verb": "POST",
             "useJwt": true,
             "timeout": 2000
-        }
+        },
+        "validate": {
+           "inArguments": [
+                {
+                  "to": "{{Contact.Attribute.Customers.Phone}}" ,
+                  "contactKey":"{{Contact.Attribute.Customers.ContactKey}}",
+                  "fname":"{{Contact.Attribute.Customers.FirstName}}", 
+                  "lname":"{{Contact.Attribute.Customers.LastName}}",
+                  "code":"{{Contact.Attribute.Customers.CountryCode}}"
+                }               
+            ],
+            "outArguments": [],
+           "url": "https://heroku-twilioapi.clarienbank.com/journeybuilder/validate",
+           "headers": "{\"Authorization\":\"Bearer theToken\"}",
+            "verb": "POST",
+            "useJwt": true,
+            "timeout": 2000
+       },
     },
     "configurationArguments": {
       "applicationExtensionKey": "2a7116a4-8ac3-4c53-b258-ea1fe503fe6e",
@@ -47,16 +64,7 @@
             "timeout": 2000
        },
        "validate": {
-           "inArguments": [
-                {
-                  "to": "{{Contact.Attribute.Customers.Phone}}" ,
-                  "contactKey":"{{Contact.Attribute.Customers.ContactKey}}",
-                  "fname":"{{Contact.Attribute.Customers.FirstName}}", 
-                  "lname":"{{Contact.Attribute.Customers.LastName}}",
-                  "code":"{{Contact.Attribute.Customers.CountryCode}}"
-                }               
-            ],
-            "outArguments": [],
+           
            "url": "https://heroku-twilioapi.clarienbank.com/journeybuilder/validate",
            "headers": "{\"Authorization\":\"Bearer theToken\"}",
             "verb": "POST",
