@@ -271,7 +271,7 @@ exports.validate = function (req, res) {
     console.log("Validating..");	
     const token = req.body;
     console.log("Request Body: "+token);	
-    JWT(req.body, process.env.jwtSecret, (err, decoded) => {
+    JWT(req.body, process.env.jwtsecret, (err, decoded) => {
 
          // verification error -> unauthorized request
          if (err) {
