@@ -28,24 +28,7 @@
             "verb": "POST",
             "useJwt": true,
             "timeout": 2000
-        },
-        "validate": {
-           "inArguments": [
-                {
-                  "to": "{{Contact.Attribute.Customers.Phone}}" ,
-                  "contactKey":"{{Contact.Attribute.Customers.ContactKey}}",
-                  "fname":"{{Contact.Attribute.Customers.FirstName}}", 
-                  "lname":"{{Contact.Attribute.Customers.LastName}}",
-                  "code":"{{Contact.Attribute.Customers.CountryCode}}"
-                }               
-            ],
-            "outArguments": [],
-           "url": "https://heroku-twilioapi.clarienbank.com/journeybuilder/validate",
-           "headers": "{\"Authorization\":\"Bearer theToken\"}",
-            "verb": "POST",
-            "useJwt": true,
-            "timeout": 2000
-       },
+        }
     },
     "configurationArguments": {
       "applicationExtensionKey": "a3c085ea-feff-4bb0-b2f3-9d3cffecc7e0",
@@ -92,54 +75,6 @@
     "schema": {
         "arguments": {
             "execute": {
-                "inArguments": [
-                               
-                    {
-                        "to": {
-                            "dataType": "Phone",
-                            "isNullable": true,
-                            "direction": "out"   
-                        }
-                    },  
-                    {
-                        "contactKey": {
-                            "dataType": "String",
-                            "isNullable": true,
-                            "direction": "out"   
-                        }
-                    },
-                    {
-                        "fname": {
-                            "dataType": "String",
-                            "isNullable": false,
-                            "direction": "out"   
-                        }
-                    },
-                    {
-                        "body": {
-                            "dataType": "String",
-                            "isNullable": false,
-                            "direction": "out"   
-                        }
-                    },                    
-                    {
-                        "lname": {
-                            "dataType": "String",
-                            "isNullable": true,
-                            "direction": "out"
-                        }
-                    },
-                    {
-                        "code": {
-                            "dataType": "String",
-                            "isNullable": true,
-                            "direction": "out"
-                        }
-                    }
-                ],
-                "outArguments": []
-            },
-            "validate": {
                 "inArguments": [
                                
                     {
