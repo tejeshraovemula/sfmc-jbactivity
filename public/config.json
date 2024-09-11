@@ -24,6 +24,7 @@
             ],
             "outArguments": [],
             "url": "https://heroku-twilioapi.clarienbank.com/journeybuilder/execute",
+            "headers": "{\"Authorization\":\"Bearer theToken\"}",
             "verb": "POST",
             "useJwt": true,
             "timeout": 2000
@@ -33,24 +34,28 @@
       "applicationExtensionKey": "2a7116a4-8ac3-4c53-b258-ea1fe503fe6e",
        "save": {
            "url": "https://heroku-twilioapi.clarienbank.com/journeybuilder/save",
+           "headers": "{\"Authorization\":\"Bearer theToken\"}",
             "verb": "POST",
             "useJwt": true,
             "timeout": 2000
        },
        "publish": {
            "url": "https://heroku-twilioapi.clarienbank.com/journeybuilder/publish",
+           "headers": "{\"Authorization\":\"Bearer theToken\"}",
             "verb": "POST",
             "useJwt": true,
             "timeout": 2000
        },
        "validate": {
            "url": "https://heroku-twilioapi.clarienbank.com/journeybuilder/validate",
+           "headers": "{\"Authorization\":\"Bearer theToken\"}",
             "verb": "POST",
             "useJwt": true,
             "timeout": 2000
        },
        "stop": {
            "url": "https://heroku-twilioapi.clarienbank.com/journeybuilder/stop",
+           "headers": "{\"Authorization\":\"Bearer theToken\"}",
             "verb": "POST",
             "useJwt": true,
             "timeout": 2000
