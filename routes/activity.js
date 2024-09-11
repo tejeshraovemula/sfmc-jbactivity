@@ -92,132 +92,148 @@ exports.save = function (req, res) {
 exports.execute = function (req, res) {
 
    
-    console.log("Executed: "+req.body.inArguments[0]);
-    
-    var requestBody = req.body.inArguments[0];
+    console.log("Execution Started..");
+    JWT(req.body, process.env.jwtsecret, (err, decoded) => {
 
-   
-    const to = "+"+requestBody.to;
-    const from = process.env.SENDER_PHONE;
-    const body = requestBody.body;
-    const contactKey = requestBody.contactKey;
-
-
-    const https = require('https');
-
-    const getToken = () => {
-      return new Promise((resolve, reject) => {
-        const tokenData = JSON.stringify({
-          grant_type: "client_credentials",
-          client_id:process.env.CLIENT_ID,
-          client_secret:process.env.CLIENT_SECRET
-        });
+         // verification error -> unauthorized request
+         if (err) {
+             console.error(err);
+             return res.status(401).end();
+         }
+         console.log("Decoded :"+JSON.stringify(decoded));
+         if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
+            
+             // decoded in arguments
+             var requestBody = decoded.inArguments[0];
+  
+            const to = "+"+requestBody.to;
+            const from = process.env.SENDER_PHONE;
+            const body = requestBody.body;
+            const contactKey = requestBody.contactKey;
+        
+        
+            const https = require('https');
+        
+            const getToken = () => {
+              return new Promise((resolve, reject) => {
+                const tokenData = JSON.stringify({
+                  grant_type: "client_credentials",
+                  client_id:process.env.CLIENT_ID,
+                  client_secret:process.env.CLIENT_SECRET
+                });
+            
+                const tokenOptions = {
+                  hostname: process.env.AUTH_HOST,
+                  port: 443,
+                  path: process.env.AUTH_PATH,
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'grant_type': "client_credentials",
+                    'client_id':process.env.CLIENT_ID,
+                    'client_secret':process.env.CLIENT_SECRET
+                  }
+                };
+            
+                const tokenReq = https.request(tokenOptions, (tokenRes) => {
+                  let tokenResponseBody = '';
+            
+                  tokenRes.on('data', (chunk) => {
+                    tokenResponseBody += chunk;
+                  });
+            
+                  tokenRes.on('end', () => {
+                    if (tokenRes.statusCode === 200) {
+                      const tokenResponseJson = JSON.parse(tokenResponseBody);
+                      resolve(tokenResponseJson.access_token);
+                    } else {
+                      reject(`Failed to obtain token. Status code: ${tokenRes.statusCode},  Response: ${tokenResponseBody}`);
+                    }
+                  });
+                });
+            
+                tokenReq.on('error', (e) => {
+                  reject(`Problem with token request: ${e.message}`);
+                });
+                console.log('Sending token request with data:', tokenData);
+                //tokenReq.write(tokenData);
+                tokenReq.end();
+              });
+            }; 
+        
+           
+            
+            const sendSMS = (accessToken) => {
+              return new Promise((resolve, reject) => {
+                const recordData = JSON.stringify(
+                  {
+                        "requestUUID": "REQ_" + Date.now(), 
+                        "To": to, 
+                        "From": from,
+                        "Body": body
+                  }
+                );
+            
+                const recordOptions = {
+                  hostname: process.env.API_HOST,
+                  port: 443,
+                  path: process.env.API_PATH,
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Length': recordData.length
+                  }
+                };
+            
+                const recordReq = https.request(recordOptions, (recordRes) => {
+                  let recordResponseBody = '';
+            
+                  recordRes.on('data', (chunk) => {
+                    recordResponseBody += chunk;
+                  });
+            
+                  recordRes.on('end', () => {
+                    if (recordRes.statusCode === 200 || recordRes.statusCode === 201) {
+                      resolve(`SMS Sent successfully. Response: ${recordResponseBody}`);
+                    } else {
+                      reject(`Failed to send SMS. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
+                    }
+                  });
+                });
+            
+                recordReq.on('error', (e) => {
+                  reject(`Problem with record request: ${e.message}`);
+                });
+                console.log("Request URL: https://"+process.env.API_HOST+process.env.API_PATH);
+                console.log("Req Body: "+recordData);
+                recordReq.write(recordData);
+                recordReq.end();
+              });
+            };
+            
+            getToken()
+              .then((accessToken) => {
+                console.log('Access Token:', accessToken);
+                return sendSMS(accessToken);
+              })
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+            // FOR TESTING
+            logData(req);
+            //res.send(200, 'Execute');
+             res.status(200).send('Execute');
+         } else {
+             console.error('inArguments invalid.');
+             return res.status(400).end();
+         }
+     });
     
-        const tokenOptions = {
-          hostname: process.env.AUTH_HOST,
-          port: 443,
-          path: process.env.AUTH_PATH,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'grant_type': "client_credentials",
-            'client_id':process.env.CLIENT_ID,
-            'client_secret':process.env.CLIENT_SECRET
-          }
-        };
     
-        const tokenReq = https.request(tokenOptions, (tokenRes) => {
-          let tokenResponseBody = '';
-    
-          tokenRes.on('data', (chunk) => {
-            tokenResponseBody += chunk;
-          });
-    
-          tokenRes.on('end', () => {
-            if (tokenRes.statusCode === 200) {
-              const tokenResponseJson = JSON.parse(tokenResponseBody);
-              resolve(tokenResponseJson.access_token);
-            } else {
-              reject(`Failed to obtain token. Status code: ${tokenRes.statusCode},  Response: ${tokenResponseBody}`);
-            }
-          });
-        });
-    
-        tokenReq.on('error', (e) => {
-          reject(`Problem with token request: ${e.message}`);
-        });
-        console.log('Sending token request with data:', tokenData);
-        //tokenReq.write(tokenData);
-        tokenReq.end();
-      });
-    }; 
-
-   
-    
-    const sendSMS = (accessToken) => {
-      return new Promise((resolve, reject) => {
-        const recordData = JSON.stringify(
-          {
-                "requestUUID": "REQ_" + Date.now(), 
-                "To": to, 
-                "From": from,
-                "Body": body
-          }
-        );
-    
-        const recordOptions = {
-          hostname: process.env.API_HOST,
-          port: 443,
-          path: process.env.API_PATH,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Length': recordData.length
-          }
-        };
-    
-        const recordReq = https.request(recordOptions, (recordRes) => {
-          let recordResponseBody = '';
-    
-          recordRes.on('data', (chunk) => {
-            recordResponseBody += chunk;
-          });
-    
-          recordRes.on('end', () => {
-            if (recordRes.statusCode === 200 || recordRes.statusCode === 201) {
-              resolve(`SMS Sent successfully. Response: ${recordResponseBody}`);
-            } else {
-              reject(`Failed to send SMS. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
-            }
-          });
-        });
-    
-        recordReq.on('error', (e) => {
-          reject(`Problem with record request: ${e.message}`);
-        });
-        console.log("Request URL: https://"+process.env.API_HOST+process.env.API_PATH);
-        console.log("Req Body: "+recordData);
-        recordReq.write(recordData);
-        recordReq.end();
-      });
-    };
-    
-    getToken()
-      .then((accessToken) => {
-        console.log('Access Token:', accessToken);
-        return sendSMS(accessToken);
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    // FOR TESTING
-    logData(req);
-    //res.send(200, 'Execute');
-     res.status(200).send('Execute');
 
     // Used to decode JWT
     /* JWT(req.body, process.env.jwtSecret, (err, decoded) => {
@@ -279,7 +295,7 @@ exports.validate = function (req, res) {
              return res.status(401).end();
          }
          console.log("Decoded :"+JSON.stringify(decoded));
-         if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
+         if (decoded ) {
             
              // decoded in arguments
              var decodedArgs = decoded.inArguments[0];
@@ -292,11 +308,5 @@ exports.validate = function (req, res) {
          }
      });
     
-    //console.log("Validated: "+req.body.inArguments[0]);       
     
-    // Data from the req and put it in an array accessible to the main app.
-    //console.log( req.body );
-    //logData(req);
-   // res.send(200, 'Validate');
-     // res.status(200).send('Validate');
 };
