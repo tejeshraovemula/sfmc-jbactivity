@@ -29,6 +29,7 @@ function logData(req) {
         originalUrl: req.originalUrl
     });
     console.log("body: " + util.inspect(req.body));
+    console.log("session: " + req.session);
     console.log("headers: " + JSON.stringify(req.headers));
     console.log("trailers: " + req.trailers);
     console.log("method: " + req.method);
