@@ -114,7 +114,7 @@ exports.execute = function (req, res) {
         });
     
         const tokenOptions = {
-          hostname: 'mc2-qgk1nhxg1mljb37pr3-6x9q4.auth.marketingcloudapis.com',
+          hostname: 'SUBDOMAIN.auth.marketingcloudapis.com',
           port: 443,
           path: '/v2/token',
           method: 'POST',
@@ -165,7 +165,7 @@ exports.execute = function (req, res) {
         ]);
     
         const recordOptions = {
-          hostname: 'mc2-qgk1nhxg1mljb37pr3-6x9q4.rest.marketingcloudapis.com',
+          hostname: 'SUBDOMAIN.rest.marketingcloudapis.com',
           port: 443,
           path: '/hub/v1/dataevents/key:EAB3AF1A-A7A9-4CAD-88D7-87BFF29AD607/rowset',
           method: 'POST',
