@@ -12,7 +12,7 @@ exports.index = function(req, res){
     console.log("request Session :"+JSON.stringify(req.session));
     console.log("request Authorization :"+JSON.stringify(req.Authorization));
     
-    if( !req.session.token ) {
+    if( !req.session ) {
         console.log("Rendering Index Page1"); 
         res.render( 'index', {
             title: 'Unauthenticated',
