@@ -28,6 +28,7 @@ exports.index = function(req, res){
     res.render( 'index', {
             title: 'Journey Builder Activity',
             results: activity.logExecuteData,
+        });
 };
 
 exports.login = function( req, res ) {
