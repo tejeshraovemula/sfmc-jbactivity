@@ -11,7 +11,8 @@ exports.index = function(req, res){
     console.log("request headers :"+JSON.stringify(req.headers));
     console.log("request Session :"+JSON.stringify(req.session));
     console.log("request Authorization :"+JSON.stringify(req.Authorization));
-    if( !req.session.token ) {
+    
+    /*if( !req.session.token ) {
         console.log("Rendering Index Page1"); 
         res.render( 'index', {
             title: 'Unauthenticated',
@@ -23,7 +24,10 @@ exports.index = function(req, res){
             title: 'Journey Builder Activity',
             results: activity.logExecuteData,
         });
-    }
+    }*/
+    res.render( 'index', {
+            title: 'Journey Builder Activity',
+            results: activity.logExecuteData,
 };
 
 exports.login = function( req, res ) {
