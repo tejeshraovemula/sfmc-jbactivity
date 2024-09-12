@@ -7,7 +7,7 @@ var activity = require('./activity');
  * GET home page.
  */
 exports.index = function(req, res){
-    
+    console.log("request :"+req);
     if( !req.session.token ) {
         console.log("Rendering Index Page1"); 
         res.render( 'index', {
