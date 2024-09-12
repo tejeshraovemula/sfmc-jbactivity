@@ -33,7 +33,7 @@ app.get('/', routes.index );
 app.post('/login', routes.login );
 app.post('/logout', routes.logout );
 
-// Custom Hello World Activity Routes
+// Custom Activity Routes
 app.post('/journeybuilder/save/', activity.save );
 app.post('/journeybuilder/validate/', activity.validate );
 app.post('/journeybuilder/publish/', activity.publish );
