@@ -20,7 +20,7 @@ app.use(bodyParser.text({ type: 'application/jwt' }));
 
 //app.use(express.methodOverride());
 //app.use(express.favicon());
-
+app.set('view engine', 'ejs');
 //app.use(express.static(path.join(__dirname, 'public')));
 
 // Express in Development Mode
