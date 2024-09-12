@@ -6,7 +6,7 @@ var activity = require('./activity');
 /*
  * GET home page.
  */
-exports.index = function(req, res){
+/*exports.index = function(req, res){
     console.log("Rendering Index Page"); 
     if( !req.session.token ) {
         res.render( 'index', {
@@ -20,7 +20,7 @@ exports.index = function(req, res){
             results: activity.logExecuteData,
         });
     }
-};
+};*/
 
 exports.login = function( req, res ) {
     console.log( 'req.body: ', req.body ); 
