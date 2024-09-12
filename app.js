@@ -21,7 +21,7 @@ app.use(bodyParser.text({ type: 'application/jwt' }));
 //app.use(express.methodOverride());
 //app.use(express.favicon());
 
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
 // Express in Development Mode
 if ('development' == app.get('env')) {
