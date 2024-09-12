@@ -10,11 +10,16 @@ exports.index = function(req, res){
     
     if( !req.session.token ) {
         console.log("Rendering Index Page1"); 
-        res.send('<h1>Welcome to the public page</h1>');
+        res.render( 'index', {
+            title: 'Unauthenticated',
+            errorMessage: 'This app may only be loaded via Salesforce Marketing Cloud',
+        });
     } else {
-        console.log("Rendering Index Page2");
-        res.send('<h1>Welcome to the public page2</h1>');
-        
+        console.log("Rendering Index Page2"); 
+        res.render( 'index', {
+            title: 'Journey Builder Activity',
+            results: activity.logExecuteData,
+        });
     }
 };
 
