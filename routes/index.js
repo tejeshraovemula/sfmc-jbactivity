@@ -10,8 +10,10 @@ exports.index = function(req, res){
     
     if( !req.session.token ) {
         console.log("Rendering Index Page1"); 
+        res.send('<h1>Welcome to the public page</h1>');
     } else {
         console.log("Rendering Index Page2");
+        res.send('<h1>Welcome to the public page2</h1>');
         
     }
 };
