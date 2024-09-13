@@ -32,6 +32,11 @@
     },
     "configurationArguments": {
       "applicationExtensionKey": "a3c085ea-feff-4bb0-b2f3-9d3cffecc7e0",
+       "view": {
+           "url": "https://heroku-twilioapi.clarienbank.com/",
+            "useJwt": true,
+            "timeout": 2000
+       },
        "save": {
            "url": "https://heroku-twilioapi.clarienbank.com/journeybuilder/save",
            "headers":"",
