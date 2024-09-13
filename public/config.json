@@ -31,7 +31,7 @@
         }
     },
     "configurationArguments": {
-      "applicationExtensionKey": "a3c085ea-feff-4bb0-b2f3-9d3cffecc7e0",
+      "applicationExtensionKey": "e40d4999-69b4-42ce-a81e-6bbde651f1c3",
        "view": {
            "url": "https://heroku-twilioapi.clarienbank.com/",
             "useJwt": true,
