@@ -1,11 +1,5 @@
 {
-  "name": "twilio-journey-builder-example",
-  "homepage": "https://github.com/jmaitz/twilio-sfmc",
-  "authors": [
-    "John Maitz"
-  ],
-  "description": "",
-  "main": "",
+  "name": "twilio-journey-builder",
   "license": "MIT",
   "private": true,
   "ignore": [
@@ -17,6 +11,6 @@
   ],
   "dependencies": {
     "salesforce-lightning-design-system": "^2.3.1",
-    "jquery": "^3.2.1"
+    "jquery": "latest"
   }
 }
