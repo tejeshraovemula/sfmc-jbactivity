@@ -197,8 +197,10 @@ exports.execute = function (req, res) {
                   recordRes.on('end', () => {
                     if (recordRes.statusCode === 200 || recordRes.statusCode === 201) {
                       resolve(`SMS Sent successfully. Response: ${recordResponseBody}`);
+                     
                     } else {
                       reject(`Failed to send SMS. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
+                     
                     }
                   });
                 });
@@ -220,14 +222,16 @@ exports.execute = function (req, res) {
               })
               .then((response) => {
                 console.log(response);
+                 res.status(200).send('Execute');
               })
               .catch((error) => {
                 console.error(error);
+                res.status(500).send('Execute');
               });
             // FOR TESTING
             logData(req);
             //res.send(200, 'Execute');
-             res.status(200).send('Execute');
+             
          } else {
              console.error('inArguments invalid.');
              return res.status(400).end();
