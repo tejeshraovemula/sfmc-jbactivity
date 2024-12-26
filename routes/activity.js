@@ -214,10 +214,12 @@ exports.execute = function (req, res) {
                 return sendSMS(accessToken);
               })
               .then((response) => {
+                console.log('Printing Response');
                 console.log(response);
                  res.status(200).send('Execute');
               })
               .catch((error) => {
+                console.log('Printing Error');
                 console.error(error);
                 res.status(500).send('Execute');
               });
