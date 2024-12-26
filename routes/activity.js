@@ -216,12 +216,15 @@ exports.execute = function (req, res) {
               .then((response) => {
                 console.log('Printing Response');
                 console.log(response);
-                 res.status(200).send('Execute');
+                 //res.status(200).send('Execute');
+                  res.status(200).send(response);
               })
               .catch((error) => {
                 console.log('Printing Error');
                 console.error(error);
-                res.status(500).send('Execute');
+                //res.status(500).send('Execute');
+                res.status(500).send(error);
+                
               });
             // FOR TESTING
             logData(req);
