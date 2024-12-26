@@ -217,7 +217,11 @@ exports.execute = function (req, res) {
                 console.log('Printing Response');
                 console.log(response);
                  //res.status(200).send('Execute');
-                  res.status(200).send(response);
+                  res.status(200).json({
+                                        errorCode: 'SUCCESS',
+                                        message: response,
+                                        details: response
+                                    });
               })
               .catch((error) => {
                 console.log('Printing Error');
