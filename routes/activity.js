@@ -147,6 +147,57 @@ exports.execute = function (req, res) {
                         res.status(500).send(error);
                     });
             }
+
+             const sendSMS = (accessToken) => {
+              return new Promise((resolve, reject) => {
+                const recordData = JSON.stringify(
+                  {
+                        "requestUUID": "REQ_" + Date.now(), 
+                        "To": to, 
+                        "From": from,
+                        "Body": body
+                  }
+                );
+            
+                const recordOptions = {
+                  hostname: process.env.API_HOST,
+                  port: 443,
+                  path: process.env.API_PATH,
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Length': recordData.length
+                  }
+                };
+            
+                const recordReq = https.request(recordOptions, (recordRes) => {
+                  let recordResponseBody = '';
+            
+                  recordRes.on('data', (chunk) => {
+                    recordResponseBody += chunk;
+                  });
+            
+                  recordRes.on('end', () => {
+                    if (recordRes.statusCode === 200 || recordRes.statusCode === 201) {
+                      resolve(`SMS Sent successfully. Response: ${recordResponseBody}`);
+                     
+                    } else {
+                      reject(`Failed to send SMS. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
+                     
+                    }
+                  });
+                });
+            
+                recordReq.on('error', (e) => {
+                  reject(`Problem with record request: ${e.message}`);
+                });
+                console.log("Request URL: https://"+process.env.API_HOST+process.env.API_PATH);
+                console.log("Req Body: "+recordData);
+                recordReq.write(recordData);
+                recordReq.end();
+              });
+            };
         
         
            /* const https = require('https');
@@ -200,56 +251,7 @@ exports.execute = function (req, res) {
         
            
             
-            const sendSMS = (accessToken) => {
-              return new Promise((resolve, reject) => {
-                const recordData = JSON.stringify(
-                  {
-                        "requestUUID": "REQ_" + Date.now(), 
-                        "To": to, 
-                        "From": from,
-                        "Body": body
-                  }
-                );
-            
-                const recordOptions = {
-                  hostname: process.env.API_HOST,
-                  port: 443,
-                  path: process.env.API_PATH,
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Length': recordData.length
-                  }
-                };
-            
-                const recordReq = https.request(recordOptions, (recordRes) => {
-                  let recordResponseBody = '';
-            
-                  recordRes.on('data', (chunk) => {
-                    recordResponseBody += chunk;
-                  });
-            
-                  recordRes.on('end', () => {
-                    if (recordRes.statusCode === 200 || recordRes.statusCode === 201) {
-                      resolve(`SMS Sent successfully. Response: ${recordResponseBody}`);
-                     
-                    } else {
-                      reject(`Failed to send SMS. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
-                     
-                    }
-                  });
-                });
-            
-                recordReq.on('error', (e) => {
-                  reject(`Problem with record request: ${e.message}`);
-                });
-                console.log("Request URL: https://"+process.env.API_HOST+process.env.API_PATH);
-                console.log("Req Body: "+recordData);
-                recordReq.write(recordData);
-                recordReq.end();
-              });
-            };
+           
             
             getToken()
               .then((accessToken) => {
@@ -369,56 +371,7 @@ const getToken = () => {
   });
 };
 
-/**
- * Send SMS using the provided access token
- */
-const sendSMS = (accessToken) => {
-  return new Promise((resolve, reject) => {
-    const recordData = JSON.stringify({
-      "requestUUID": "REQ_" + Date.now(),
-      "To": to,
-      "From": from,
-      "Body": body
-    });
 
-    const recordOptions = {
-      hostname: process.env.API_HOST,
-      port: 443,
-      path: process.env.API_PATH,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Length': recordData.length
-      }
-    };
-
-    const recordReq = https.request(recordOptions, (recordRes) => {
-      let recordResponseBody = '';
-
-      recordRes.on('data', (chunk) => {
-        recordResponseBody += chunk;
-      });
-
-      recordRes.on('end', () => {
-        if (recordRes.statusCode === 200 || recordRes.statusCode === 201) {
-          resolve(`SMS Sent successfully. Response: ${recordResponseBody}`);
-        } else {
-          reject(`Failed to send SMS. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
-        }
-      });
-    });
-
-    recordReq.on('error', (e) => {
-      reject(`Problem with record request: ${e.message}`);
-    });
-
-    console.log("Request URL: https://" + process.env.API_HOST + process.env.API_PATH);
-    console.log("Req Body: " + recordData);
-    recordReq.write(recordData);
-    recordReq.end();
-  });
-};
 
 
 
