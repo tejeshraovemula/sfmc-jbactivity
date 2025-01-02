@@ -5,8 +5,12 @@ var util = require('util');
 const Path = require('path');
 const JWT = require(Path.join(__dirname, '..', 'lib', 'jwtDecoder.js'));
 var http = require('https');
+const https = require('https');
 
 exports.logExecuteData = [];
+
+let cachedToken = null; // Store the access token
+let tokenExpiryTime = 0; // Store the expiration time (in milliseconds)
 
 function logData(req) {
     exports.logExecuteData.push({
@@ -104,9 +108,48 @@ exports.execute = function (req, res) {
             const from = process.env.SENDER_PHONE;
             const body = requestBody.body;
             const contactKey = requestBody.contactKey;
+
+            // Check if the token is cached and still valid
+            if (cachedToken && Date.now() < tokenExpiryTime) {
+                console.log("Using cached token...");
+                sendSMS(cachedToken)
+                    .then(response => {
+                        console.log('SMS Sent successfully.');
+                        res.status(200).json({
+                            errorCode: 'SUCCESS',
+                            message: response,
+                            details: response
+                        });
+                    })
+                    .catch(error => {
+                        console.log('Error sending SMS:', error);
+                        res.status(500).send(error);
+                    });
+            } else {
+                // Token is either not cached or has expired, request a new one
+                getToken()
+                    .then(accessToken => {
+                        console.log('Access Token:', accessToken);
+                        cachedToken = accessToken.token; // Cache the new token
+                        tokenExpiryTime = Date.now() + (accessToken.expires_in * 1000); // Set token expiry time using expires_in from response
+                        return sendSMS(accessToken.token);
+                    })
+                    .then(response => {
+                        console.log('SMS Sent successfully.');
+                        res.status(200).json({
+                            errorCode: 'SUCCESS',
+                            message: response,
+                            details: response
+                        });
+                    })
+                    .catch(error => {
+                        console.log('Error getting token or sending SMS:', error);
+                        res.status(500).send(error);
+                    });
+            }
         
         
-            const https = require('https');
+           /* const https = require('https');
         
             const getToken = () => {
               return new Promise((resolve, reject) => {
@@ -229,7 +272,7 @@ exports.execute = function (req, res) {
                 //res.status(500).send('Execute');
                 res.status(500).send(error);
                 
-              });
+              });*/
             // FOR TESTING
             logData(req);
             //res.send(200, 'Execute');
@@ -265,6 +308,118 @@ exports.execute = function (req, res) {
          }
      });*/
 };
+
+/**
+ * Fetch the access token if it does not exist or has expired
+ */
+const getToken = () => {
+  return new Promise((resolve, reject) => {
+    const tokenData = JSON.stringify({
+      grant_type: "client_credentials",
+      client_id: process.env.CLIENT_ID,
+      client_secret: process.env.CLIENT_SECRET
+    });
+
+    const tokenOptions = {
+      hostname: process.env.AUTH_HOST,
+      port: 443,
+      path: process.env.AUTH_PATH,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'grant_type': "client_credentials",
+        'client_id': process.env.CLIENT_ID,
+        'client_secret': process.env.CLIENT_SECRET
+      }
+    };
+
+    const tokenReq = https.request(tokenOptions, (tokenRes) => {
+      let tokenResponseBody = '';
+
+      tokenRes.on('data', (chunk) => {
+        tokenResponseBody += chunk;
+      });
+
+      tokenRes.on('end', () => {
+        if (tokenRes.statusCode === 200) {
+          const tokenResponseJson = JSON.parse(tokenResponseBody);
+          
+          // Assuming the response contains access_token and expires_in
+          const accessToken = tokenResponseJson.access_token;
+          const expiresIn = tokenResponseJson.expires_in; // This should be in seconds
+
+          // Return both the token and the expires_in time
+          resolve({
+            token: accessToken,
+            expires_in: expiresIn // The expires_in is in seconds
+          });
+        } else {
+          reject(`Failed to obtain token. Status code: ${tokenRes.statusCode}, Response: ${tokenResponseBody}`);
+        }
+      });
+    });
+
+    tokenReq.on('error', (e) => {
+      reject(`Problem with token request: ${e.message}`);
+    });
+
+    console.log('Sending token request with data:', tokenData);
+    tokenReq.write(tokenData);
+    tokenReq.end();
+  });
+};
+
+/**
+ * Send SMS using the provided access token
+ */
+const sendSMS = (accessToken) => {
+  return new Promise((resolve, reject) => {
+    const recordData = JSON.stringify({
+      "requestUUID": "REQ_" + Date.now(),
+      "To": to,
+      "From": from,
+      "Body": body
+    });
+
+    const recordOptions = {
+      hostname: process.env.API_HOST,
+      port: 443,
+      path: process.env.API_PATH,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Length': recordData.length
+      }
+    };
+
+    const recordReq = https.request(recordOptions, (recordRes) => {
+      let recordResponseBody = '';
+
+      recordRes.on('data', (chunk) => {
+        recordResponseBody += chunk;
+      });
+
+      recordRes.on('end', () => {
+        if (recordRes.statusCode === 200 || recordRes.statusCode === 201) {
+          resolve(`SMS Sent successfully. Response: ${recordResponseBody}`);
+        } else {
+          reject(`Failed to send SMS. Status code: ${recordRes.statusCode}, Response: ${recordResponseBody}`);
+        }
+      });
+    });
+
+    recordReq.on('error', (e) => {
+      reject(`Problem with record request: ${e.message}`);
+    });
+
+    console.log("Request URL: https://" + process.env.API_HOST + process.env.API_PATH);
+    console.log("Req Body: " + recordData);
+    recordReq.write(recordData);
+    recordReq.end();
+  });
+};
+
 
 
 /*
