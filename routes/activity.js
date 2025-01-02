@@ -109,49 +109,10 @@ exports.execute = function (req, res) {
             const body = requestBody.body;
             const contactKey = requestBody.contactKey;
 
-             console.log('Using cached token...',cachedToken);
-             console.log('Expiry',tokenExpiryTime);
+             console.log('Cached token: ',cachedToken);
+             console.log('ExpiryTime: ',tokenExpiryTime);
 
-            // Check if the token is cached and still valid
-            if (cachedToken && Date.now() < tokenExpiryTime) {
-                console.log("Using cached token...");
-                sendSMS(cachedToken)
-                    .then(response => {
-                        console.log('SMS Sent successfully.');
-                        res.status(200).json({
-                            errorCode: 'SUCCESS',
-                            message: response,
-                            details: response
-                        });
-                    })
-                    .catch(error => {
-                        console.log('Error sending SMS:', error);
-                        res.status(500).send(error);
-                    });
-            } else {
-                // Token is either not cached or has expired, request a new one
-                getToken()
-                    .then(accessToken => {
-                        console.log('Access Token:', accessToken);
-                        cachedToken = accessToken.token; // Cache the new token
-                        tokenExpiryTime = Date.now() + (accessToken.expires_in * 1000); // Set token expiry time using expires_in from response
-                        return sendSMS(accessToken.token);
-                    })
-                    .then(response => {
-                        console.log('SMS Sent successfully.');
-                        res.status(200).json({
-                            errorCode: 'SUCCESS',
-                            message: response,
-                            details: response
-                        });
-                    })
-                    .catch(error => {
-                        console.log('Error getting token or sending SMS:', error);
-                        res.status(500).send(error);
-                    });
-            }
-
-             const sendSMS = (accessToken) => {
+              const sendSMS = (accessToken) => {
               return new Promise((resolve, reject) => {
                 const recordData = JSON.stringify(
                   {
@@ -201,7 +162,48 @@ exports.execute = function (req, res) {
                 recordReq.end();
               });
             };
-        
+
+
+            // Check if the token is cached and still valid
+            if (cachedToken && Date.now() < tokenExpiryTime) {
+                console.log("Using cached token...");
+                sendSMS(cachedToken)
+                    .then(response => {
+                        console.log('SMS Sent successfully.');
+                        res.status(200).json({
+                            errorCode: 'SUCCESS',
+                            message: response,
+                            details: response
+                        });
+                    })
+                    .catch(error => {
+                        console.log('Error sending SMS:', error);
+                        res.status(500).send(error);
+                    });
+            } else {
+                // Token is either not cached or has expired, request a new one
+                getToken()
+                    .then(accessToken => {
+                        console.log('Access Token:', accessToken);
+                        cachedToken = accessToken.token; // Cache the new token
+                        tokenExpiryTime = Date.now() + (accessToken.expires_in * 1000); // Set token expiry time using expires_in from response
+                        return sendSMS(accessToken.token);
+                    })
+                    .then(response => {
+                        console.log('SMS Sent successfully.');
+                        res.status(200).json({
+                            errorCode: 'SUCCESS',
+                            message: response,
+                            details: response
+                        });
+                    })
+                    .catch(error => {
+                        console.log('Error getting token or sending SMS:', error);
+                        res.status(500).send(error);
+                    });
+            }
+
+                    
         
            /* const https = require('https');
         
