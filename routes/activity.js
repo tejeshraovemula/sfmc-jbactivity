@@ -109,6 +109,9 @@ exports.execute = function (req, res) {
             const body = requestBody.body;
             const contactKey = requestBody.contactKey;
 
+             console.log('Using cached token...',cachedToken);
+             console.log('Expiry',tokenExpiryTime);
+
             // Check if the token is cached and still valid
             if (cachedToken && Date.now() < tokenExpiryTime) {
                 console.log("Using cached token...");
