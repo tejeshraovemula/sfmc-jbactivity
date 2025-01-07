@@ -27,7 +27,7 @@
             "headers":"",
             "verb": "POST",
             "useJwt": true,
-            "timeout": 20000
+            "timeout": 10000
         }
     },
     "configurationArguments": {
