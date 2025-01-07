@@ -116,7 +116,7 @@ exports.execute = function (req, res) {
               return new Promise((resolve, reject) => {
                 const recordData = JSON.stringify(
                   {
-                        "requestUUID": "SFMC_SMS_" + Date.now(), 
+                        "requestUUID": "SFMC_SMS_"+contactKey+"_"+ Date.now(), 
                         "To": to, 
                         "From": from,
                         "Body": body
